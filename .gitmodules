@@ -1,0 +1,6 @@
+[submodule "cores"]
+	path = cores
+	url = https://github.com/PaulStoffregen/cores.git
+[submodule "lib/FlexCAN_Library"]
+	path = lib/FlexCAN_Library
+	url = https://github.com/pawelsky/FlexCAN_Library.git
