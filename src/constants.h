@@ -1,6 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define LOOP_PERIOD 1000000 // us
+// 20 milliseconds
+#define LOOP_PERIOD 20000 // us
 
 #endif // CONSTANTS_H
