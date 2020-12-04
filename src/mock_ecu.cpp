@@ -9,7 +9,8 @@
 #include "aemnet_utils.h"
 #include "aemnet_definitions.h"
 
-FlexCAN canbus(AEMNET_BAUDRATE);
+FlexCAN canbus0(AEMNET_BAUDRATE, 0);
+FlexCAN canbus1(AEMNET_BAUDRATE, 1);
 
 #define NUM_MSGS 5
 
@@ -68,22 +69,19 @@ int counter;
 void setup() {
     // setup LED
     pinMode(13, OUTPUT);
+    digitalWrite(13, HIGH);
 
     for (int i = 0; i < NUM_MSGS; i++) {
         init_msg(msgs[i], AEMNET_MSG_ID(ids[i]));
     }
-
-    Serial.begin(115200);
-    canbus.begin();
+    canbus0.begin();
+    canbus1.begin();
 }
 
 void loop() {
     // setup CAN message
     loop_msg_00(&msg_00);
-    canbus.write(msg_00);
-
-    digitalWrite(13, state);
-    state = !state;
+    canbus0.write(msg_00);
 }
 
 int main() {
