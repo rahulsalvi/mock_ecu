@@ -61,9 +61,10 @@ uint16_t float2fixed_u16(float val, float scale, float offset) {
     return (uint16_t)val;
 }
 
-void loop_msg_00(CAN_message_t* m) {
+void loop_msg_00(CAN_message_t* m, int count) {
     msg_00_t* msg = (msg_00_t*)(m->buf);
-    msg->rpm = swap_bytes(float2fixed_u16(3000.1234, 0.39063, 0.0));
+    float rpm = 24 * count;
+    msg->rpm = swap_bytes(float2fixed_u16(rpm, 0.39063, 0.0));
     msg->load = 0x0000;
     msg->throttle = swap_bytes(float2fixed_u16(75.51, 0.0015259, 0.0));
     msg->intake_temp = float2fixed_s8(26.00, 1.0, 0.0);
@@ -111,10 +112,13 @@ void loop() {
     canbus0.write(msg_00);
     canbus0.write(msg_03);
     canbus0.write(msg_04);
-    loop_msg_00(&msg_00);
+    loop_msg_00(&msg_00, counter);
     loop_msg_03(&msg_03);
     loop_msg_04(&msg_04);
     counter++;
+    if (counter > 500) {
+        counter = 0;
+    }
 }
 
 int main() {
